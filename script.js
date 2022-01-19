@@ -30,6 +30,7 @@ function getSkuFromProductItem(item) {
 
 function cartItemClickListener(event) {
   // coloque seu código aqui
+  console.log(event.target)
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -41,7 +42,7 @@ function createCartItemElement({ sku, name, salePrice }) {
 }
 
 const init = async () => {
-  const products = await fetchProducts('computardor');
+  const products = await fetchProducts('computador');
   const result = products.results;
   const selectItem = document.querySelector('.items');
   

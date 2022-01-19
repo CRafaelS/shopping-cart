@@ -24,13 +24,13 @@ function createProductItemElement({ sku, name, image }) {
   return section;
 }
 
-function getSkuFromProductItem(item) {
-  return item.querySelector('span.item__sku').innerText;
-}
+// function getSkuFromProductItem(item) {
+//   return item.querySelector('span.item__sku').innerText;
+// }
 
 function cartItemClickListener(event) {
   // coloque seu código aqui
-  console.log(event.target)
+  console.log(event.target);
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -52,7 +52,7 @@ const init = async () => {
     selectItem.appendChild(elementProduct);
   });
 };
-
+// Requisito 2 concluído com a ajuda do Léo Oliveira.
 const selectProductItem = () => {
   const productItem = document.querySelectorAll('.item__add');
   const buyItem = document.querySelector('.cart__items');

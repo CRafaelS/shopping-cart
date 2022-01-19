@@ -40,4 +40,35 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-window.onload = () => { };
+const init = async () => {
+  const products = await fetchProducts('computardor');
+  const result = products.results;
+  const selectItem = document.querySelector('.items');
+  
+  result.forEach((item) => {
+    const { id: sku, title: name, thumbnail: image } = item;
+    const elementProduct = createProductItemElement({ sku, name, image });
+    selectItem.appendChild(elementProduct);
+  });
+};
+
+const selectProductItem = () => {
+  const productItem = document.querySelectorAll('.item__add');
+  const buyItem = document.querySelector('.cart__items');
+  const takeProductItem = async (event) => {
+    const productItemElement = event.target.parentElement.firstChild;
+    const elementSelect = await fetchItem(productItemElement.innerText);
+    const {id: sku, title: name, price: salePrice} = elementSelect;
+    const itemSelected = createCartItemElement({ sku, name, salePrice });
+    buyItem.appendChild(itemSelected);
+  };
+
+  productItem.forEach((element) => {
+    element.addEventListener('click', takeProductItem);
+  });
+};
+
+window.onload = async () => { 
+  await init();
+  selectProductItem();
+ };

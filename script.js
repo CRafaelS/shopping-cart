@@ -58,7 +58,7 @@ const selectProductItem = () => {
   const takeProductItem = async (event) => {
     const productItemElement = event.target.parentElement.firstChild;
     const elementSelect = await fetchItem(productItemElement.innerText);
-    const {id: sku, title: name, price: salePrice} = elementSelect;
+    const { id: sku, title: name, price: salePrice } = elementSelect;
     const itemSelected = createCartItemElement({ sku, name, salePrice });
     buyItem.appendChild(itemSelected);
   };

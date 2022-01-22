@@ -1,5 +1,12 @@
 const listOl = document.querySelector('.cart__items');
+const clearBtn = document.querySelector('.empty-cart');
 
+// Requisito 6 com ajuda do Guthias
+const clearCart = () => {
+  Array.from(listOl.childNodes).forEach((element) => element.remove());
+};
+
+clearBtn.addEventListener('click', clearCart);
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -26,12 +33,11 @@ function createProductItemElement({ sku, name, image }) {
   return section;
 }
 
-// function getSkuFromProductItem(item) {
-//   return item.querySelector('span.item__sku').innerText;
-// }
+function getSkuFromProductItem(item) {
+  return item.querySelector('span.item__sku').innerText;
+}
 
 function cartItemClickListener(event) {
-  // coloque seu código aqui
   event.target.remove();
   saveCartItems(listOl.innerHTML);
 }
@@ -46,8 +52,9 @@ function createCartItemElement({ sku, name, salePrice }) {
 
 // Requisito 2 concluído com a ajuda do Léo Oliveira.
 const takeProductItem = async (event) => {
-  const productItemElement = event.target.parentElement.firstChild;
-  const elementSelect = await fetchItem(productItemElement.innerText);
+  const productItemElement = event.target.parentElement;
+  const productId = getSkuFromProductItem(productItemElement);
+  const elementSelect = await fetchItem(productId);
   const { id: sku, title: name, price: salePrice } = elementSelect;
   const itemSelected = createCartItemElement({ sku, name, salePrice });
   listOl.appendChild(itemSelected);

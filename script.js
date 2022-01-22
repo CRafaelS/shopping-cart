@@ -1,3 +1,5 @@
+const listOl = document.querySelector('.cart__items');
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -31,6 +33,7 @@ function createProductItemElement({ sku, name, image }) {
 function cartItemClickListener(event) {
   // coloque seu código aqui
   event.target.remove();
+  saveCartItems(listOl.innerHTML);
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -40,6 +43,23 @@ function createCartItemElement({ sku, name, salePrice }) {
   li.addEventListener('click', cartItemClickListener);
   return li;
 }
+
+// Requisito 2 concluído com a ajuda do Léo Oliveira.
+const takeProductItem = async (event) => {
+  const productItemElement = event.target.parentElement.firstChild;
+  const elementSelect = await fetchItem(productItemElement.innerText);
+  const { id: sku, title: name, price: salePrice } = elementSelect;
+  const itemSelected = createCartItemElement({ sku, name, salePrice });
+  listOl.appendChild(itemSelected);
+  saveCartItems(listOl.innerHTML);
+};
+
+const selectProductItem = () => {
+  const productItem = document.querySelectorAll('.item__add');
+  productItem.forEach((element) => {
+    element.addEventListener('click', takeProductItem);
+  });
+};
 
 const init = async () => {
   const products = await fetchProducts('computador');
@@ -51,25 +71,11 @@ const init = async () => {
     const elementProduct = createProductItemElement({ sku, name, image });
     selectItem.appendChild(elementProduct);
   });
+  selectProductItem();
+  listOl.innerHTML = getSavedCartItems();
 };
-// Requisito 2 concluído com a ajuda do Léo Oliveira.
-const selectProductItem = () => {
-  const productItem = document.querySelectorAll('.item__add');
-  const buyItem = document.querySelector('.cart__items');
-  const takeProductItem = async (event) => {
-    const productItemElement = event.target.parentElement.firstChild;
-    const elementSelect = await fetchItem(productItemElement.innerText);
-    const { id: sku, title: name, price: salePrice } = elementSelect;
-    const itemSelected = createCartItemElement({ sku, name, salePrice });
-    buyItem.appendChild(itemSelected);
-  };
-
-  productItem.forEach((element) => {
-    element.addEventListener('click', takeProductItem);
-  });
-};
+listOl.addEventListener('click', cartItemClickListener);
 
 window.onload = async () => { 
   await init();
-  selectProductItem();
  };

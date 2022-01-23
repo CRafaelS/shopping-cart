@@ -1,12 +1,8 @@
 const listOl = document.querySelector('.cart__items');
 const clearBtn = document.querySelector('.empty-cart');
+const selectItem = document.querySelector('.items');
+const cart = document.querySelector('.cart');
 
-// Requisito 6 com ajuda do Guthias
-const clearCart = () => {
-  Array.from(listOl.childNodes).forEach((element) => element.remove());
-};
-
-clearBtn.addEventListener('click', clearCart);
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -40,6 +36,7 @@ function getSkuFromProductItem(item) {
 function cartItemClickListener(event) {
   event.target.remove();
   saveCartItems(listOl.innerHTML);
+  somPrice();
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -59,6 +56,7 @@ const takeProductItem = async (event) => {
   const itemSelected = createCartItemElement({ sku, name, salePrice });
   listOl.appendChild(itemSelected);
   saveCartItems(listOl.innerHTML);
+  somPrice();
 };
 
 const selectProductItem = () => {
@@ -68,18 +66,51 @@ const selectProductItem = () => {
   });
 };
 
+// Requisito 5
+const somPrice = () => {
+  let som = 0;
+  Array.from(listOl.childNodes).forEach((element) => som += parseFloat(element.innerText.split('$')[1]));
+  const 
+  console.log(som);
+}
+
+
+const priceCar = cart.appendChild(createCustomElement('section', 'total-price', '0'));
+
+// Requisito 6 com ajuda do Guthias
+const clearCart = () => {
+  Array.from(listOl.childNodes).forEach((element) => element.remove());
+  saveCartItems(listOl.innerHTML);
+  somPrice();
+};
+
+clearBtn.addEventListener('click', clearCart);
+
+// Requisito 7
+const createWait = () => {
+  selectItem.appendChild(createCustomElement('section', 'loading', 'Carregando...'));
+  cart.appendChild(createCustomElement('section', 'loading', 'Carregando...'));
+};
+createWait();
+
+const removeWait = () => {
+  const removeLoad = document.querySelectorAll('.loading');
+  removeLoad.forEach((element) => element.remove());
+};
+
 const init = async () => {
   const products = await fetchProducts('computador');
   const result = products.results;
-  const selectItem = document.querySelector('.items');
   
   result.forEach((item) => {
     const { id: sku, title: name, thumbnail: image } = item;
     const elementProduct = createProductItemElement({ sku, name, image });
     selectItem.appendChild(elementProduct);
   });
+  removeWait();
   selectProductItem();
   listOl.innerHTML = getSavedCartItems();
+  somPrice();
 };
 listOl.addEventListener('click', cartItemClickListener);
 

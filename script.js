@@ -67,15 +67,14 @@ const selectProductItem = () => {
 };
 
 // Requisito 5
-const somPrice = () => {
-  let som = 0;
-  Array.from(listOl.childNodes).forEach((element) => som += parseFloat(element.innerText.split('$')[1]));
-  const 
-  console.log(som);
-}
+// const somPrice = () => {
+//   let som = 0;
+//   Array.from(listOl.childNodes).forEach((element) => som += parseFloat(element.innerText.split('$')[1]));
+//   const 
+//   console.log(som);
+// }
 
-
-const priceCar = cart.appendChild(createCustomElement('section', 'total-price', '0'));
+// const priceCar = cart.appendChild(createCustomElement('section', 'total-price', '0'));
 
 // Requisito 6 com ajuda do Guthias
 const clearCart = () => {

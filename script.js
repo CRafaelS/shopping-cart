@@ -20,18 +20,33 @@ function createCustomElement(element, className, innerText) {
 function createProductItemElement({ sku, name, image }) {
   const section = document.createElement('section');
   section.className = 'item';
-
+  
   section.appendChild(createCustomElement('span', 'item__sku', sku));
   section.appendChild(createCustomElement('span', 'item__title', name));
   section.appendChild(createProductImageElement(image));
   section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
-
+  
   return section;
 }
 
 function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
+
+// Requisito 5
+const totalPrice = (sum) => {
+  const totalPr = document.querySelector('.total-price');
+  totalPr.innerText = `${sum}`;
+};
+
+const somPrice = () => {
+  let som = 0;
+  Array.from(listOl.childNodes)
+    .forEach((element) => { 
+      som += parseFloat(element.innerText.split('$')[1]);
+   });
+  totalPrice(som);
+};
 
 function cartItemClickListener(event) {
   event.target.remove();
@@ -64,19 +79,6 @@ const selectProductItem = () => {
   productItem.forEach((element) => {
     element.addEventListener('click', takeProductItem);
   });
-};
-
-// Requisito 5
-const totalPrice = (sum) => {
-  const totalPr = document.querySelector('.total-price');
-  totalPr.innerText = `${sum}`;
-};
-
-const somPrice = () => {
-  let som = 0;
-  Array.from(listOl.childNodes)
-    .forEach((element) => som += parseFloat(element.innerText.split('$')[1]));
-  totalPrice(som);
 };
 
 // Requisito 6 com ajuda do Guthias

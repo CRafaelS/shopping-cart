@@ -36,7 +36,7 @@ function getSkuFromProductItem(item) {
 function cartItemClickListener(event) {
   event.target.remove();
   saveCartItems(listOl.innerHTML);
-  // somPrice();
+  somPrice();
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -56,7 +56,7 @@ const takeProductItem = async (event) => {
   const itemSelected = createCartItemElement({ sku, name, salePrice });
   listOl.appendChild(itemSelected);
   saveCartItems(listOl.innerHTML);
-  // somPrice();
+  somPrice();
 };
 
 const selectProductItem = () => {
@@ -67,20 +67,23 @@ const selectProductItem = () => {
 };
 
 // Requisito 5
-// const somPrice = () => {
-//   let som = 0;
-//   Array.from(listOl.childNodes).forEach((element) => som += parseFloat(element.innerText.split('$')[1]));
-//   const 
-//   console.log(som);
-// }
+const totalPrice = (sum) => {
+  const totalPr = document.querySelector('.total-price');
+  totalPr.innerText = `${sum}`;
+};
 
-// const priceCar = cart.appendChild(createCustomElement('section', 'total-price', '0'));
+const somPrice = () => {
+  let som = 0;
+  Array.from(listOl.childNodes)
+    .forEach((element) => som += parseFloat(element.innerText.split('$')[1]));
+  totalPrice(som);
+};
 
 // Requisito 6 com ajuda do Guthias
 const clearCart = () => {
   Array.from(listOl.childNodes).forEach((element) => element.remove());
   saveCartItems(listOl.innerHTML);
-  // somPrice();
+  somPrice();
 };
 
 clearBtn.addEventListener('click', clearCart);
@@ -109,7 +112,7 @@ const init = async () => {
   removeWait();
   selectProductItem();
   listOl.innerHTML = getSavedCartItems();
-  // somPrice();
+  somPrice();
 };
 listOl.addEventListener('click', cartItemClickListener);
 
